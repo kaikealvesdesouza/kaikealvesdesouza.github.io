@@ -371,7 +371,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 						total = currentT;
 					}
 
-					console.log(docpages);
+					//console.log(docpages);
 					for(let i=0;i<docpages.length;i++)
 					{
 							if(i>0){
@@ -454,7 +454,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 				}
 				today = mm + '-' + dd + '-' + yyyy;
 				yadot = dd + '-' + mm + '-' + yyyy;
-				console.log(dateFormat.format(new Date(today)));
+				//console.log(dateFormat.format(new Date(today)));
 
 				let currentdate = new Date(today);
 				//doc.text(dateFormat.format(currentdate),20,105);
@@ -478,7 +478,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 						{
 							str += " ";
 						}
-						console.log(str,len,str.length);
+						//console.log(str,len,str.length);
 						return str;
 					}else{
 						return str.slice(0,len-1) + " ";
@@ -510,7 +510,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 					}
 					acc = 185 + ((i+1) * 5);
 
-			//	console.log("acc:........",acc);
+			//	//console.log("acc:........",acc);
 					//doc.text(str,20, acc);
 					addRow(str,"",12);
 				}
@@ -522,7 +522,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 				addRow("Observações: ","",12);
 				//doc.text(docm.observacoes, 20, acc+40);
 				addRow(docm.observacoes, "", 12);
-				//console.log("sumiu no ",acc+40);
+				////console.log("sumiu no ",acc+40);
 				runDoc();
 
 				function getBase64(file,i) {
@@ -530,7 +530,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 			   reader.readAsDataURL(file);
 			   reader.onload = function () {
 
-			     console.log(file,file.type.split("/")[1]);
+			     //console.log(file,file.type.split("/")[1]);
 					 	doc.addPage();
 					 	doc.addImage(reader.result, file.type.split("/")[1], 15, 40, 180, 180);
 						imgs.push(reader.result);
@@ -539,7 +539,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 						}
 			   };
 			   reader.onerror = function (error) {
-			     console.log('Error: ', error);
+			     //console.log('Error: ', error);
 			   };
 			}
 				let files=document.getElementById("imgs").files;
@@ -552,7 +552,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 				}else{
 						saveDocument();
 				}
-				//console.log(document.getElementById("imgs").files);
+				////console.log(document.getElementById("imgs").files);
 				function allStorage() {
 				    var values = [],
 				        keys = Object.keys(myproxylocalstorage),
@@ -579,7 +579,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 
 			}else{
 				alert("Preencha o formulario corretamente");
-				console.log(docm.data!="",docm.placa!="", Number.isInteger(parseInt(docm.km)),docm.km);
+				//console.log(docm.data!="",docm.placa!="", Number.isInteger(parseInt(docm.km)),docm.km);
 			}
 			}
 
@@ -736,7 +736,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 				let lis = [];
 				for(let i=0;i<list.length;i++)
 				{
-					//console.log(list[i],list[i].price);
+					////console.log(list[i],list[i].price);
 			 		lis.push("<li class=\"list-group-item\">"+ list[i].name + "&nbsp" +
 																									list[i].price + "&nbsp" +
 																									list[i].quantity + "&nbsp" +
@@ -791,7 +791,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 				return headerHtml;
 			}
 			function getDoc(){
-				console.log(selectedDoc);
+				//console.log(selectedDoc);
 				docm.data=selectedDoc.data;
 				docm.placa=selectedDoc.placa;
 				docm.km=selectedDoc.km;
@@ -805,10 +805,10 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 			function selectDoc(){
 				let items = myproxylocalstorage.getItemsFrom("docms");
 				let value = document.getElementById("search").value;
-				console.log("entrou no selectDoc");
+				//console.log("entrou no selectDoc");
 				for(let j = 0; j < items.length; j++)
 				{
-					console.log("name: ",items[j].name,", value: ",value);
+					//console.log("name: ",items[j].name,", value: ",value);
         	if (items[j].name==value) {
             optionFound = true;
 						selectedDoc=items[j].value;
@@ -891,7 +891,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 						let atts =	(table.types[j]) ? table.types[j][1].map(att=>att[0]+"=\""+att[1]+"\"").join(" "):"";
 						//let evt = (table.events[j]) ? "type=\""+table.events[j][0]+"\"" : "";
 						let evts = (table.events[j]) ? table.events[j].map(att=>att[0]+"=\""+att[1]+"\"").join(" "):"";
-						console.log(atts);
+						//console.log(atts);
 							let input = "<input class=\"form-control\"" +
 															"oninput=\"updateRow(" + i + "," + j + ")\"" +
 															"id=\"" + table.cols[j] + i + "\"" +
@@ -1018,7 +1018,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 				this.setItem=function(name,value,local="root"){
 					this.addItem(name,local);
 					this.myproxylocalstorage.setItem(name,value);
-					console.log("entrou no myproxylocalstorage set ");
+					//console.log("entrou no myproxylocalstorage set ");
 				}
 				this.getItemsFrom=function(local){
 					let found = this.getItems().find(item=>item.name==local);
@@ -1094,14 +1094,14 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 			docm.observacoes="";
 
 			var list = myproxylocalstorage.getItemsFrom("list");
-			if(list.length==0){ console.log("lista "+list);
+			if(list.length==0){ //console.log("lista "+list);
 			list = [];
 			list[0]={name:"Internet Explorer",price:"10,00",quantity:"7"};
 			list[1]={name:"Firefox",price:"10,00",quantity:"7"};
 			list[2]={name:"Chrome",price:"10,00",quantity:"7"};
 			list[3]={name:"Opera",price:"10,00",quantity:"7"};
 			list[4]={name:"Safari",price:"10,00",quantity:"7"};
-			console.log("estrou definindo a lista novamente");
+			//console.log("estrou definindo a lista novamente");
 			myproxylocalstorage.setItem("list",JSON.stringify(list),"list");
 		}else{
 			//list = JSON.parse(list);
@@ -1189,7 +1189,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 						{
 							state[k] = (!state[k]) ? dflt[k]:state[k];
 						}
-						console.log(viewName,stateName,state.views);
+						//console.log(viewName,stateName,state.views);
 						let container 			=	document.getElementById(view.name);
 					  container.innerHTML	=	window[state.html](pyld);
 					  view.currentState 	= state.name;
@@ -1246,7 +1246,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 
 			window.onload=function(){
 
-				console.log(myproxylocalstorage);
+				//console.log(myproxylocalstorage);
 				//view0.defaultHTML=document.getElementById("view0").innerHTML.slice();
 				for(let i=0;i<views.length;i++)
 				{
@@ -1255,7 +1255,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 				loaded();
 			}
 			window.onhashchange = function () {
-				console.log("#changed", window.location.hash);
+				//console.log("#changed", window.location.hash);
 				/*window.location.hash = '#' + myview.name + '/' + found.name;*/
 			}
 
@@ -1264,7 +1264,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 				docm.placa=document.getElementById("inputAutomovelPlaca").value;
 				docm.km=document.getElementById("inputAutomovelKm").value;
 				docm.observacoes=document.getElementById("exampleFormControlTextarea1").value;
-				//console.log(docm);
+				////console.log(docm);
 			}
 
 
@@ -1278,7 +1278,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 				let tinder = value.match(decimal);
 				if(tinder){
 					let left = value.replace(decimal,"");
-					console.log(parseFloat(value.replace(left,"").replace(",",".")));
+					//console.log(parseFloat(value.replace(left,"").replace(",",".")));
 				}
 		if(tinder)
 		{
