@@ -800,10 +800,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 			function defaultHTMLView1(){
 
 				let headerHtml=`<!--<div class="bd-example">-->
-					<h3>
-					Ligue
-					<small class="text-muted"> ${corp.contato}</small>
-					</h3>
+					<h3> <small class="text-muted"> ${corp.contato}</small> </h3>
 
 				  <address>
 				    <strong>${corp.name}<!--Braspeças, ltda.--></strong><br>
@@ -1487,27 +1484,22 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 		<div class="mx-auto" style="max-width:768px;">
 
 			<div class="row">
-				<div class="col-6 mx-auto col-md-6 order-md-2">
-					<img width="300" height="300" class="img-fluid mb-3 mb-md-0 mt-5" src="braspecas.png" viewBox="0 0 1024 860" focusable="false" role="img" />
-				</div>
-				<div class="col-md-6 order-md-1 text-center text-md-left pr-md-5">
-					<h1 class="mb-3 bd-text-purple-bright mt-5">Braspeças</h1>
-					<!--
-					<p class="lead">
-						Build responsive, mobile-first projects on the web with the world’s most popular front-end component library.
-					</p>
-					-->
-					<p class="lead">
-						Auto Peças e Acessórios em Geral
-					</p>
-					<!--
-					<p class="lead mb-4">
-					Bootstrap is an open source toolkit for developing with HTML, CSS, and JS. Quickly prototype your ideas or build your entire app with our Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful plugins built on jQuery.
-					</p>
-					-->
-					<div id="view1"></div>
+				<div class="col-12 mx-auto">
 
-				</div>
+
+						<img width="300" height="300" class="img-fluid mb-3 mb-md-0 mt-5 mx-auto d-block" src="braspecas.png" viewBox="0 0 1024 860" focusable="false" role="img" />
+
+
+						<h1 class="mb-3 bd-text-purple-bright mt-5 text-center">Braspeças</h1>
+
+						<p class="lead text-center">
+							Auto Peças e Acessórios em Geral
+						</p>
+
+						<div id="view1" class="text-center"></div>
+
+
+					</div>
 			</div>
 
 
@@ -1626,7 +1618,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
 
 
-<!--<footer class="footer mt-auto py-3">-->
+
 
 	<footer class="my-5 pt-5 text-muted text-center text-small">
         <p class="mb-1">© 2019 Pro TI STeS ten.</p>
@@ -1637,14 +1629,14 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
           <li class="list-inline-item"><a href="#">Support</a></li>
         </ul>
       </footer>
-<!--</footer>-->
 
-					<!--
-					<div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="darkSwitch">
-            <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
-          </div>
-					-->
+
+			<!--
+			<div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="darkSwitch">
+        <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
+      </div>
+			-->
 <script src="dark-mode-bootstrap/dark-mode-switch.min.js"></script>
 </body>
 </html>
