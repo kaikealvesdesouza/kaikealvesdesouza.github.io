@@ -1185,7 +1185,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 
 					for(let j=0; j<views[j].states.length; j++)
 					{
-						searchView(views[i].states[j].views,state);
+						if(views[i].states[j].views)searchView(views[i].states[j].views,state);
 					}
 				}
 			}
