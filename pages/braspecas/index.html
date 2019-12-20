@@ -533,7 +533,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 			     console.log(file,file.type.split("/")[1]);
 					 	doc.addPage();
 					 	doc.addImage(reader.result, file.type.split("/")[1], 15, 40, 180, 180);
-
+						imgs.push(reader.result);
 						if(i==files.length){
 							saveDocument();
 						}
@@ -543,7 +543,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 			   };
 			}
 				let files=document.getElementById("imgs").files;
-
+				let imgs=[];
 				if(files.length > 0){
 					for(let i=0;i<files.length;i++)
 					{
@@ -563,14 +563,15 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 				    return values;
 				}
 				function saveDocument(){
-				let nameFile = yadot + '-' + docm.placa + '-' + docm.km + '-' + timestamp.getHours() + ':' + timestamp.getMinutes() + ':' + timestamp.getSeconds() + '-' + localStorage.length;
-				doc.save(nameFile + '.pdf');
-				docm.name=nameFile;
-				docm.table = table;
-				docm.corp = corp;
-				lastDocumentMaked=docm;
-				myproxylocalstorage.setItem(nameFile,JSON.stringify(docm),"docms");
-			//	console.log(myproxylocalstorage);
+					let nameFile = yadot + '-' + docm.placa + '-' + docm.km + '-' + timestamp.getHours() + ':' + timestamp.getMinutes() + ':' + timestamp.getSeconds() + '-' + localStorage.length;
+					doc.save(nameFile + '.pdf');
+					docm.name  = nameFile;
+					docm.table = table;
+					docm.corp = corp;
+					docm.imgs = imgs;
+					lastDocumentMaked=docm;
+					myproxylocalstorage.setItem(nameFile,JSON.stringify(docm),"docms");
+					docm.imgs
 					setTimeout(function(){
 						changeViewToState("view0","mailto");
 					},1000);
@@ -1163,9 +1164,9 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 			//let view7={name:"view8",defaultState:"default",states:[{name:"default",html:"defaultHTMLView8"}]};
 
 
-			view0.childs=[view2,view3,view4,view5,view7];
-
-			let views=[view0,view1,view2,view3,view4,view5,view6,view7];
+			view0.state[0].childs=[view2,view3,view4,view5,view7];
+			view0.state[2].childs=[view6];
+			let views=[view0,view1];
 
 			function setViewToState(view,state,pyld){
 				let myview = views.find(View=>View.name==view);
@@ -1177,8 +1178,8 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 						if(found){
 							container.innerHTML	=	window[found.html](pyld);
 							myview.currentState = found.name;
-							if(myview.childs){
-								myview.childs.forEach(function(childView){setViewToState(childView.name,childView.defaultState);});
+							if(found.childs){
+								found.childs.forEach(function(childView){setViewToState(childView.name,childView.defaultState);});
 							}
 						}
 					}
@@ -1511,7 +1512,10 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 
 				<div class="row">
 					<div class="col-sm-12">
-					<p>Selecione imagens: <input type="file" name="img" id="imgs" onchange="previewFiles()" multiple /></p>
+						<div class="form-group">
+    					<label for="imgs">Selecione Imagens:</label>
+							<p>Selecione imagens: <input type="file" name="img" id="imgs" onchange="previewFiles()" multiple /></p>
+						</div>
 					</div>
 				</div>
 
@@ -1534,15 +1538,6 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
-<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript">
-$('#datepicker').datepicker({
-	uiLibrary: 'bootstrap4'
-	// locale: 'pt-br'
-	//	format: 'dd mmm yyyy'
-});
-</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
 
