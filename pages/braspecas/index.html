@@ -1150,7 +1150,13 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 				</blockquote>`;
 										return html;
 			}
-			let view0={name:"view0",defaultState:"default",states:[{name:"default",html:"defaultHTMLView0"},{name:"search",html:"searchHTMLView0"},{name:"listOfProducts",html:"listOfProductHTMLView0"},{name:"mailto",html:"mailtoHTMLView0"},{name:"about",html:"aboutHTMLView0"}]};
+			let view0={name:"view0",defaultState:"default",states:[
+				{name:"default",html:"defaultHTMLView0"},
+				{name:"search",html:"searchHTMLView0"},
+				{name:"listOfProducts",html:"listOfProductHTMLView0"},
+				{name:"mailto",html:"mailtoHTMLView0"},
+				{name:"about",html:"aboutHTMLView0"}
+			]};
 			let view1={name:"view1",defaultState:"default",states:[{name:"default",html:"defaultHTMLView1"},{name:"edit",html:"editHTMLView1"}]};
 			let view2={name:"view2",defaultState:"default",states:[{name:"default",html:"defaultHTMLView2"}]};
 
@@ -1169,26 +1175,39 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 			var views=[view0,view1];
 
 			function searchView(views,viewName,stateName,pyld){
-				//let views=sweiv|views;
-				//let found=false;
-				//let view="";
+
 				for(let i=0; i<views.length; i++)
 				{
-					if(views[i].name==viewName){
-						view =	views[i];
-						state=  views[i].states.find(state => state.name == stateName);
-						let container =	document.getElementById(view.name);
-							  container.innerHTML	=	window[state.html](pyld);
-							  view.currentState = state.name;
-								//return true;
+					if(views[i].name == viewName){
+						let view  =	views[i];
+						let state = views[i].states.find(state => state.name == stateName);
+						if(!state){
+							return;
+							}
+						let dflt = {name:"",html:"",views:[]};
+						for(let k in dflt)
+						{
+							state[k] = (!state[k]) ? dflt[k]:state[k];
+						}
+						console.log(viewName,stateName,state.views);
+						let container 			=	document.getElementById(view.name);
+					  container.innerHTML	=	window[state.html](pyld);
+					  view.currentState 	= state.name;
+
+						for(let j=0; j<state.views.length; j++)
+						{
+							searchView(state.views,state.views[j].name,"default");
+						}
 					}
 
+					//let currentState = views[i].states.find(state => state.name == views[i].currentState);
 					for(let j=0; j<views[i].states.length; j++)
 					{
-						console.log(views[i],views[j].states);
-						let subviews=views[i].states[j].views;
-						if(subviews)searchView(subviews,viewName,stateName,pyld);
+						if(views[i].states[j].name==views[i].currentState){
+							if(views[i].states[j].views)searchView(views[i].states[j].views,viewName,stateName);
+						}
 					}
+
 				}
 			}
 			function setViewToState(view, state, pyld){
@@ -1228,7 +1247,11 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 			window.onload=function(){
 
 				console.log(myproxylocalstorage);
-				view0.defaultHTML=document.getElementById("view0").innerHTML.slice();
+				//view0.defaultHTML=document.getElementById("view0").innerHTML.slice();
+				for(let i=0;i<views.length;i++)
+				{
+					views[i].defaultHTML=document.getElementById(views[i].name).innerHTML.slice();
+				}
 				loaded();
 			}
 			window.onhashchange = function () {
