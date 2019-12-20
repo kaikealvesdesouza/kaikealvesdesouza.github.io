@@ -1168,15 +1168,15 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 			view0.states[2].views=[view6];
 			var views=[view0,view1];
 
-			function searchView(views,view,state,pyld){
+			function searchView(views,viewName,stateName,pyld){
 				//let views=sweiv|views;
 				//let found=false;
 				//let view="";
 				for(let i=0; i<views.length; i++)
 				{
-					if(views[i].name==view){
+					if(views[i].name==viewName){
 						view =	views[i];
-						state=  views[i].states.find(setats => setats.name == state);
+						state=  views[i].states.find(setats => setats.name == stateName);
 						let container =	document.getElementById(view.name);
 							  container.innerHTML	=	window[state.html](pyld);
 							  view.currentState = state.name;
@@ -1521,7 +1521,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 					<div class="col-sm-12">
 						<div class="form-group">
     					<label for="imgs">Selecione Imagens:</label>
-							<p>Selecione imagens: <input type="file" name="img" id="imgs" onchange="previewFiles()" multiple /></p>
+							<p><input type="file" name="img" id="imgs" onchange="previewFiles()" multiple /></p>
 						</div>
 					</div>
 				</div>
