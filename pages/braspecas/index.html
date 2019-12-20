@@ -1176,7 +1176,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 				{
 					if(views[i].name==viewName){
 						view =	views[i];
-						state=  views[i].states.find(setats => setats.name == stateName);
+						state=  views[i].states.find(state => state.name == stateName);
 						let container =	document.getElementById(view.name);
 							  container.innerHTML	=	window[state.html](pyld);
 							  view.currentState = state.name;
@@ -1185,7 +1185,8 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 
 					for(let j=0; j<views[i].states.length; j++)
 					{
-						if(views[i].states[j].views)searchView(views[i].states[j].views,view,state,pyld);
+						let subviews=views[i].states[j].views;
+						if(subviews)searchView(subviews,viewName,stateName,pyld);
 					}
 				}
 			}
