@@ -1185,6 +1185,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 
 					for(let j=0; j<views[i].states.length; j++)
 					{
+						console.log(views[i],views[i].states);
 						let subviews=views[i].states[j].views;
 						if(subviews)searchView(subviews,viewName,stateName,pyld);
 					}
