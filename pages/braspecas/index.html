@@ -1164,26 +1164,33 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 			//let view7={name:"view8",defaultState:"default",states:[{name:"default",html:"defaultHTMLView8"}]};
 
 
-			view0.states[0].childs=[view2,view3,view4,view5,view7];
-			view0.states[2].childs=[view6];
+			view0.states[0].views=[view2,view3,view4,view5,view7];
+			view0.states[2].views=[view6];
 			let views=[view0,view1];
 
-			function setViewToState(view,state,pyld){
-				let myview = views.find(View=>View.name==view);
+			function searchView(sweiv,state){
+				let views=sweiv|views;
+				let found=false;
+				let view="";
+				for(let i=0; i<views.length; i++)
+				{
+					if(views[i]==name){
+						view =	views[i];
+						state=  views[i].states.find(setats => setats.name == state);
+						let container =	document.getElementById(view.name);
+							  container.innerHTML	=	window[state.html](pyld);
+							  view.currentState = state.name;
+								return true;
+					}
 
-				if(myview){
-					let container				=	document.getElementById(myview.name);
-					if(container){
-						let found						= myview.states.find(State => State.name == state);
-						if(found){
-							container.innerHTML	=	window[found.html](pyld);
-							myview.currentState = found.name;
-							if(found.childs){
-								found.childs.forEach(function(childView){setViewToState(childView.name,childView.defaultState);});
-							}
-						}
+					for(let j=0; j<views[j].states.length; j++)
+					{
+						searchView(views[i].states[j].views,state);
 					}
 				}
+			}
+			function setViewToState(view, state, pyld){
+				searchView(views,state,pyld);
 			}
 			function changeViewToState(view,state,pyld){
 					setViewToState(view,state,pyld);
