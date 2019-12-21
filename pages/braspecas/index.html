@@ -392,11 +392,11 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 				}
 				function runDoc(){
 
-					let top 		 = 70;
+					let top 		 = 55;
 					let btm      = 20;
 					let total    = 0;
 					let docpages = [];
-					let height   = 260 - ( top + btm );
+					let height   = 280 - ( top + btm );
 					for(let i=0;i<rows.length;i++)
 					{
 						let currentT = total + rows[i].lineH;
@@ -411,7 +411,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 
 					for(let i=0;i<docpages.length;i++)
 					{
-							let top = 70;
+							let top = 55;
 							if(i>0){
 								doc.addPage();
 								 top  = 20;
@@ -444,17 +444,17 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 				if(docm.data!=""&&docm.placa!="" && Number.isInteger(parseInt(docm.km))){
 
 
-				doc.addImage(image, 'PNG', (200-50)/2, 20, 50, 50);
+				doc.addImage(image, 'PNG', (200-35)/2, 20, 35, 35);
 
 				addRow(corp.name,"",36,"center");
 				addRow(corp.slogan,"",16,"center");
 				addRow(corp.contato,"",16,"center");
-				addRow("","",16,"");
+				addRow("","",11,"");
 				addRow(corp.name,"",12);
 				addRow(corp.endereco,"",12);
 				addRow(corp.cidade + ", " + corp.estado + ", " + corp.cep,"",12);
 				addRow("F: " + corp.telefone,"",12);
-				addRow("","",16,"");
+				addRow("","",11,"");
 				addRow(corp.email,"",12);
 
 				let parts  = docm.data.split("-");
@@ -479,11 +479,11 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 
 				let currentdate = new Date(today);
 				addRow(dateFormat.format(currentdate),"",12);
-				addRow("","",12);
+				addRow("","",11);
 				addRow('Informações do Automóvel: ',"",12);
 				addRow('Placa: ' + docm.placa, "", 12 );
 				addRow('Km: ' + docm.km,"",12);
-				addRow("","",12);
+				addRow("","",11);
 				addRow("Produtos: ", "", 12);
 
 				function fillchar(len,str){
@@ -531,7 +531,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 
 				let timestamp = new Date();
 				addRow("Total:                    " + docm.total, "", 12);
-				addRow("","",12);
+				addRow("","",11);
 				addRow("Observações: ","",12);
 				addRow(docm.observacoes, "", 12);
 				runDoc();
@@ -574,7 +574,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 				function saveDocument(){
 					let nameFile = yadot + '-' + docm.placa + '-' + docm.km + '-' + timestamp.getHours() + ':' + timestamp.getMinutes() + ':' + timestamp.getSeconds() + '-' + localStorage.length;
 					doc.save(nameFile + '.pdf');
-					//docm.name  = nameFile;
+					docm.name  = nameFile;
 					docm.products = table.rows;
 					//docm.corp = corp;
 					docm.imgs = imgs;
