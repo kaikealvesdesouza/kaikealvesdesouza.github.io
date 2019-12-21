@@ -70,10 +70,11 @@
 [data-theme="dark"] .bg-black {
   background-color: #eee !important;
 }
-	<link rel="stylesheet" href="dark-mode.css">
+
 
 	</style>
-		<link rel="stylesheet" href="/dark-mode-bootstrap/dark-mode.css">
+
+		<link rel="stylesheet" href="./dark-mode-bootstrap/dark-mode.css">
 	<script type="text/javascript">
 	var image = `iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAYAAAB5fY51AAABhGlDQ1
 BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TpSIVEQuKOGSoThb8Qhy1CkWoEGqFVh1MLv0QmjQkKS
@@ -377,14 +378,21 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 					var doc      = new jsPDF();
 				let rows = [];
 
-				function addRow(str="",font="courier", fontS=12){
+				function addRow(str="",font="courier", fontS=12, align="left"){
 						font=font!="" ? font:"courier";
 						let fontP=7/12;
-						rows.push({font:font,fontS:fontS,lineH:fontS*fontP,str:str});
+						let lengthP = 65;
+						let left="";
+						if(align=="center"){
+							left=((lengthP-str.length)/2)+20;
+						}else {
+							left=20;
+						}
+						rows.push({font:font,fontS:fontS,lineH:fontS*fontP,str:str,left:left});
 				}
 				function runDoc(){
 
-					let top 		 = 20;
+					let top 		 = 70;
 					let btm      = 20;
 					let total    = 0;
 					let docpages = [];
@@ -401,24 +409,23 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 						total = currentT;
 					}
 
-					//console.log(docpages);
 					for(let i=0;i<docpages.length;i++)
 					{
+							let top = 70;
 							if(i>0){
 								doc.addPage();
+								 top  = 20;
 							}
-							let top  = 20;
 							let rows = docpages[i];
 						for(let r=0;r<rows.length;r++)
 						{
 							let currentT = top + rows[r].lineH;
 							doc.setFont(rows[r].font);
 							doc.setFontSize(rows[r].fontS);
-							doc.text(rows[r].str,20, currentT);
+							doc.text(rows[r].str,rows[r].left, currentT);
 								top = currentT;
 						}
 					}
-					//	doc.save("test.pdf");
 				}
 
 				/*
@@ -435,35 +442,20 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 
 				// Default export is a4 paper, portrait, using milimeters for units
 				if(docm.data!=""&&docm.placa!="" && Number.isInteger(parseInt(docm.km))){
-				//var doc = new jsPDF();
 
-				//doc.setFont("courier");
-				//doc.setFontSize(36);
-				//doc.text(corp.name, 20, 30);
-				addRow(corp.name,"",36);
 
-				//doc.setFontSize(16);
-				//doc.text(corp.slogan, 20, 40);
-				addRow(corp.slogan,"",16);
+				doc.addImage(image, 'PNG', (200-50)/2, 20, 50, 50);
 
-				//doc.text(corp.contato, 20, 50);
-				addRow(corp.contato,"",16);
-
-				//doc.setFontSize(12);
-				//doc.text(corp.name, 20, 60);
+				addRow(corp.name,"",36,"center");
+				addRow(corp.slogan,"",16,"center");
+				addRow(corp.contato,"",16,"center");
+				addRow("","",16,"");
 				addRow(corp.name,"",12);
-				//doc.text(corp.endereco,20,65);
 				addRow(corp.endereco,"",12);
-				//doc.text(corp.cidade + ", " + corp.estado + ", " + corp.cep,20,70);
-				addRow(corp.cidade,"",12);
-				//doc.text("P: " + corp.telefone,20,75);
-				addRow("P: " + corp.telefone,"",12);
-
-				//doc.setFontSize(12);
-				//doc.text(corp.email,20,90);
+				addRow(corp.cidade + ", " + corp.estado + ", " + corp.cep,"",12);
+				addRow("F: " + corp.telefone,"",12);
+				addRow("","",16,"");
 				addRow(corp.email,"",12);
-
-				doc.addImage(image, 'PNG', 150, 50, 50, 50);
 
 				let parts  = docm.data.split("-");
 				let mydate = parts[1] + '-' + parts[2] + '-' + parts[0];
@@ -484,20 +476,14 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 				}
 				today = mm + '-' + dd + '-' + yyyy;
 				yadot = dd + '-' + mm + '-' + yyyy;
-				//console.log(dateFormat.format(new Date(today)));
 
 				let currentdate = new Date(today);
-				//doc.text(dateFormat.format(currentdate),20,105);
 				addRow(dateFormat.format(currentdate),"",12);
-				//doc.text('Informações do Automóvel: ',20,120);
+				addRow("","",12);
 				addRow('Informações do Automóvel: ',"",12);
-
-				//doc.text('Placa: ' + docm.placa,20,140);
 				addRow('Placa: ' + docm.placa, "", 12 );
-				//doc.text('Km: ' + docm.km,80,140);
 				addRow('Km: ' + docm.km,"",12);
-
-				//doc.text("Produtos: ", 20, 160)
+				addRow("","",12);
 				addRow("Produtos: ", "", 12);
 
 				function fillchar(len,str){
@@ -527,7 +513,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
  					{
  						str += fillchar(lens[c],table.cols[c]);
  					}
- 					//doc.text(str,20, 180);
+
 					addRow(str, "", 12);
 
 					let acc = 0;
@@ -540,27 +526,20 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 					}
 					acc = 185 + ((i+1) * 5);
 
-			//	//console.log("acc:........",acc);
-					//doc.text(str,20, acc);
 					addRow(str,"",12);
 				}
 
 				let timestamp = new Date();
-				//doc.text("Total:                " + docm.total, 20, acc+10);
 				addRow("Total:                    " + docm.total, "", 12);
-				//doc.text("Observações: ", 20, acc+30);
+				addRow("","",12);
 				addRow("Observações: ","",12);
-				//doc.text(docm.observacoes, 20, acc+40);
 				addRow(docm.observacoes, "", 12);
-				////console.log("sumiu no ",acc+40);
 				runDoc();
 
 				function getBase64(file,i) {
 			   var reader = new FileReader();
 			   reader.readAsDataURL(file);
 			   reader.onload = function () {
-
-			     //console.log(file,file.type.split("/")[1]);
 					 	doc.addPage();
 					 	doc.addImage(reader.result, file.type.split("/")[1], 15, 40, 180, 180);
 						imgs.push(reader.result);
@@ -582,7 +561,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 				}else{
 						saveDocument();
 				}
-				////console.log(document.getElementById("imgs").files);
+
 				function allStorage() {
 				    var values = [],
 				        keys = Object.keys(myproxylocalstorage),
@@ -595,9 +574,9 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 				function saveDocument(){
 					let nameFile = yadot + '-' + docm.placa + '-' + docm.km + '-' + timestamp.getHours() + ':' + timestamp.getMinutes() + ':' + timestamp.getSeconds() + '-' + localStorage.length;
 					doc.save(nameFile + '.pdf');
-					docm.name  = nameFile;
-					docm.table = table;
-					docm.corp = corp;
+					//docm.name  = nameFile;
+					docm.products = table.rows;
+					//docm.corp = corp;
 					docm.imgs = imgs;
 					lastDocumentMaked=docm;
 					myproxylocalstorage.setItem(nameFile,JSON.stringify(docm),"docms");
@@ -826,7 +805,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 				docm.km=selectedDoc.km;
 				docm.observacoes=selectedDoc.observacoes;
 				docm.total=selectedDoc.total;
-				table = selectedDoc.table;
+				table.rows = selectedDoc.products;
 				changeViewToState("view0","default");
 				//initializeViews();
 			}
@@ -837,7 +816,6 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 				//console.log("entrou no selectDoc");
 				for(let j = 0; j < items.length; j++)
 				{
-					//console.log("name: ",items[j].name,", value: ",value);
         	if (items[j].name==value) {
             optionFound = true;
 						selectedDoc=items[j].value;
@@ -979,9 +957,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 			}
 			function mailtoHTMLView0(){
 				let html = `<div class="d-flex flex-row bd-highlight mb-3">
-					<div class="p-2 bd-highlight"><button class="btn btn-light" onclick="changeViewToState('view0','default');">voltar</button></div>
-					<!--<div class="p-2 bd-highlight">Flex item 2</div>-->
-					<!--<div class="p-2 bd-highlight">Flex item 3</div>-->
+					<!--<div class="p-2 bd-highlight"><button class="btn btn-light" onclick="changeViewToState('view0','default');">voltar</button></div>-->
 				</div>
 				<iframe name="ihidden" style="display:none" src="about:blank"></iframe>
 											<form class="form-search" target="ihidden" action="about:blank">
@@ -1155,7 +1131,7 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
 					return html;
 			}
 			function configHTMLView0(){
-				let html = "<pre>"+syntaxHighlight(JSON.stringify(localStorage,undefined, 4))+"</pre>";
+				let html = "<pre>"+syntaxHighlight(JSON.stringify(myproxylocalstorage.getItemsFrom("docms"),undefined, 4))+"</pre>";
 				return html;
 			}
 			function aboutHTMLView0(){
@@ -1637,6 +1613,6 @@ EsQRCE0PN/0YIOnrJhJAcAAAAASUVORK5CYII=`;
         <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
       </div>
 			-->
-<script src="dark-mode-bootstrap/dark-mode-switch.min.js"></script>
+<script src="./dark-mode-bootstrap/dark-mode-switch.min.js"></script>
 </body>
 </html>
