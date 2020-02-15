@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="pdf.js"></script>
+    <script src="pdf.worker.js"></script>
+</head>
+<body>
+
+    <!--<script src="/path/to/pdf.js"></script>-->
+    <script>
+
+        var urlPDF = 'file:///home/ithhr/%C3%81rea%20de%20Trabalho/example.pdf' ;
+
+	pdfjsLib.GlobalWorkerOptions.workerSrc = 'file:///home/ithhr/%C3%81rea%20de%20Trabalho/pdf.worker.js';
+
+//	var loadingTask = pdfjsLib.getDocument(urlPDF);
+
+
+
+        /**
+         * Retrieves the text of a specif page within a PDF Document obtained through pdf.js
+         *
+         * @param {Integer} pageNum Specifies the number of the page
+         * @param {PDFDocument} PDFDocumentInstance The PDF document obtained
+         **/
+        function getPageText(pageNum, PDFDocumentInstance) {
+            // Return a Promise that is solved once the text of the page is retrieven
+            return new Promise(function (resolve, reject) {
+                PDFDocumentInstance.getPage(pageNum).then(function (pdfPage) {
+                    // The main trick to obtain the text of the PDF page, use the getTextContent method
+                    pdfPage.getTextContent().then(function (textContent) {
+                        var textItems = textContent.items;
+                        var finalString = "";
+
+                        // Concatenate the string of the item to the final string
+                        for (var i = 0; i < textItems.length; i++) {
+                            var item = textItems[i];
+
+                            finalString += item.str + " ";
+                        }
+
+                        // Solve promise with the text retrieven from the page
+                        resolve(textContent);
+                    });
+                });
+            });
+        }
+    </script>
+</body>
+
+<style>
+  #byte_content {
+    margin: 5px 0;
+    max-height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  #byte_range { margin-top: 5px; }
+</style>
+<div class="container text-center">
+    <h1>PDF to OFFICE</h1>
+<input type="file" id="files" name="file" /> Read bytes:
+<span class="readBytesButtons">
+  <!--<button data-startbyte="0" data-endbyte="4">1-5</button>-->
+  <!--<button data-startbyte="5" data-endbyte="14">6-15</button>-->
+  <!--<button data-startbyte="6" data-endbyte="7">7-8</button>-->
+  <button>entire file</button>
+</span>
+<div id="byte_range"></div>
+<div id="byte_content"></div>
+</div>
+<script>
+  function renderHeaderHTML(corp){
+    let city = corp.city.split("UF:");
+
+    let headerHtml=`<address>
+                    <strong>${corp.enterprise}</strong><br>
+                    ${corp.address} , ${corp.neighborhood}<br>
+                    ${city[0]},${city[1]} <!--${corp.cep}--><br>
+                    <abbr title="Phone">P:</abbr> ${corp.telephone}
+                  </address>
+
+                  <address>
+                    <!--<strong>Full Name</strong><br>-->
+                    <!--<a href="mailto:${corp.email}">${corp.email}</a>-->
+                  </address>
+                    <div style=\"height:50px;\"></div>`;
+        document.getElementById("header").innerHTML=headerHtml;
+        return headerHtml;
+  }
+  function renderPageHTML(page){
+
+    let tmpt = "<div class=\"row\"><div class=\"col-sm-12\">";
+
+    tmpt += "<h4 class=\"float-right\"> Saldo de transporte: " + page.saldoDeTransporte+ "</h4>";
+
+    tmpt += "<div>" + renderTableHTML(page.table) + "</div>";
+
+    if(page.saldoATransportar){
+      tmpt += "<h4 class=\"float-right\">Saldo a transportar: " + page.saldoATransportar +"</h4>";
+    };
+
+    if(page.totalItems && page.totalValor){
+        tmpt += "<h4 class=\"float-right\">Total: " + page.totalValor +"</h4>";
+      tmpt += "<h4 class=\"float-right\">N° de Items: " + page.totalItems +"</h4>";
+    }
+    tmpt += "</div></div>";
+
+
+    document.body.innerHTML += tmpt;
+
+  }
+  function renderTableHTML(table){
+
+      let tble = "<table  class=\"table\">";
+      let thr = "<tr>";
+      for(let c=0;c<table.cols.length;c++)
+      {
+          let th="<th>" + table.cols[c] +"</th>";
+          thr+=th;
+      }
+      thr+="</tr>"
+      tble +="<thead>" + thr + "</thead>";
+      let rows = "";
+      for(let r=0;r<table.rows.length;r++)
+      {
+        let row = "<tr>";
+        for(let c=0;c<table.cols.length;c++)
+        {
+          let td="<td>" + table.rows[r][table.cols[c]] +"</td>"; //console.log(table.rows[r],", ", c);
+          row += td;
+        }
+        row += "</tr>";
+        rows += row;
+      }
+      tble += "<tbody>" + rows + "</tbody>";
+      tble += "</table>";
+      return tble;
+      //document.getElementById("table").innerHTML=tble;
+
+  }
+  function readBlob(opt_startByte, opt_stopByte) {
+
+    var files = document.getElementById('files').files;
+    if (!files.length) {
+      alert('Please select a file!');
+      return;
+    }
+
+    var file = files[0];
+    var start = parseInt(opt_startByte) || 0;
+    var stop = parseInt(opt_stopByte) || file.size - 1;
+
+    var reader = new FileReader();
+
+    // If we use onloadend, we need to check the readyState.
+    reader.onloadend = function(evt) {
+      if (evt.target.readyState == FileReader.DONE) { // DONE == 2
+        //document.getElementById('byte_content').textContent = evt.target.result.replace("data:application/pdf;base64,","");
+        document.getElementById('byte_range').textContent =
+            ['Read bytes: ', start + 1, ' - ', stop + 1,
+             ' of ', file.size, ' byte file'].join('');
+
+              var loadingTask = pdfjsLib.getDocument({data:atob(evt.target.result.replace("data:application/pdf;base64,",""))});
+
+
+
+	loadingTask.promise.then(function (pdf) { console.log("entrou ?");
+            var pdfDocument = pdf;
+            var pagesPromises = [];
+
+            for (var i = 0; i < pdf.numPages; i++) {
+                // Required to prevent that i is always the total of pages
+                (function (pageNumber) {
+                    pagesPromises.push(getPageText(pageNumber, pdfDocument));
+                })(i + 1);
+            }
+
+            Promise.all(pagesPromises).then(function (pagesText) {
+
+                // Display text of all the pages in the console
+                console.log(pagesText);
+                let doc = {};
+                let tableCols = [
+                  "#",
+                  "Clas.Fiscal",
+                  "Codigo",
+                  "Discriminacao",
+                  "Unidade",
+                  "Quantidade",
+                  "Unitario",
+                  "Total"
+
+                ];
+                let tableLabels = [
+                  "Clas.Fiscal",
+                  "Código",
+                  "Discriminação das Mercadorias",
+                  "Unid",
+                  "Quantidade",
+                  "Unitario",
+                  "Total R$"
+                ];
+                let tableRows=[];
+                doc.table={};
+                doc.table.cols=tableCols;
+              doc.table.cols=tableCols;
+                doc.table.rows=[];
+
+                let tableRow={};
+                let c=0;
+                let n=0;
+                let fim;
+                let pages=[];
+                for(let i=0;i<pagesText.length;i++)
+                {
+                  let page = {table:{cols:tableCols, rows:[]}};
+                  let rows = [];
+                  for(let j=0;j<pagesText[i].items.length;j++)
+                  {
+
+                    if(j==2){
+                      doc.title=pagesText[i].items[j].str;
+                    }
+                    if(j==3){
+                      doc.page=pagesText[i].items[j].str;
+                    }
+                    if(j==7){
+                      doc.enterprise=pagesText[i].items[j].str;
+                    }
+                    if(j==8){
+                      doc.address=pagesText[i].items[j].str;
+                    }
+                    if(j==10){
+                      doc.insest=pagesText[i].items[j].str;
+                    }
+                    if(j==11){
+                      doc.neighborhood=pagesText[i].items[j].str;
+                    }
+                    if(j==13){
+                      doc.cnpj=pagesText[i].items[j].str;
+                    }
+                    if(j==14){
+                      doc.city=pagesText[i].items[j].str;
+                    }
+                    if(j==16){
+                      doc.telephone=pagesText[i].items[j].str;
+                    }
+                    if(j==17){
+                      doc.stockin=pagesText[i].items[j].str;
+                    }
+                    if(j==25){
+                      page.saldoDeTransporte=pagesText[i].items[j].str;
+                    }
+                    if(j==373){
+                      page.saldoATransportar=pagesText[i].items[j].str;
+                    }
+                    //370-26
+                    if(j>26 && j<371){
+
+                        if(j==27){
+                          console.log(pagesText[i].items[j].str);
+                        }
+                        if(pagesText[i].items[j].str=="+-----------+------+-------------------------------------------------------------+----+------------+------------+--------------+"){
+                          fim=j;
+                          break;
+                        }
+
+                        if(c==0){
+                          tableRow[tableCols[c]]=n+1;
+                        }else{
+                          tableRow[tableCols[c]]=pagesText[i].items[j].str;
+                        }
+                        c++;
+                        if(c>7){
+                          c=0;
+                          tableRows.push(tableRow);
+                          rows.push(tableRow);
+                          tableRow={};
+                          n++;
+                        }
+
+
+                    }
+                  }
+
+                  page.table.rows=rows;
+                  pages.push(page);
+                }
+
+
+
+                let title=pagesText[pagesText.length-1].items[fim+1].str;
+                let totalItems=pagesText[pagesText.length-1].items[fim+2].str;
+                let totalValor=pagesText[pagesText.length-1].items[fim+3].str;
+
+                doc.table.rows=tableRows;
+                doc.totalItems=totalItems;
+                doc.totalValor=totalValor;
+                pages[pages.length-1].totalItems=totalItems;
+                pages[pages.length-1].totalValor=totalValor;
+                console.log(fim,"f ", totalItems,", ",totalValor);
+                console.log(doc);
+                console.log("pages:",pages);
+                //renderTableHTML(doc.table);
+                renderHeaderHTML(doc);
+                pages.forEach(renderPageHTML);
+            });
+
+        }, function (reason) {
+            // PDF loading error
+	    console.log("PDF loading error");
+            console.error(reason);
+        });
+
+
+
+      }
+    };
+
+    //var blob = file.slice(start, stop + 1);
+var  blob = file;
+    //reader.readAsBinaryString(blob);
+   reader.readAsDataURL(blob);
+   //reader.readAsArrayBuffer(blob)
+   //reader.readAsText(blob);
+
+
+  }
+
+  document.querySelector('.readBytesButtons').addEventListener('click', function(evt) {
+    if (evt.target.tagName.toLowerCase() == 'button') {
+      var startByte = evt.target.getAttribute('data-startbyte');
+      var endByte = evt.target.getAttribute('data-endbyte');
+      readBlob(startByte, endByte);
+    }
+  }, false);
+</script>
+  <div id="header" class="text-center"></div>
+  <div id="table"></div>
+</html>
