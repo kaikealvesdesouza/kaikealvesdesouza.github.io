@@ -48,7 +48,7 @@
     <!--Add buttons to initiate auth sequence and sign out-->
     <button id="authorize_button" class="btn btn-primary btn-lg" style="display: none;">Authorize</button>
     <button id="signout_button" class="btn btn-primary btn-lg"style="display: none;">Sign Out</button>
-
+	<h4>Arquivo:</h4>
     <ul id="content" style="white-space: pre-wrap;"></ul>
 
     
@@ -418,7 +418,7 @@
           'fields': "nextPageToken, files(id, name)",
 	   'q':"'1vz0yC3Du3mmARr_cnjKiGTb38HqIN7-d' in parents",	
         }).then(function(response) {
-          appendPre('Files:');
+          /*appendPre('Files:');*/
           var files = response.result.files;
           if (files && files.length > 0) {
             for (var i = 0; i < files.length; i++) {
