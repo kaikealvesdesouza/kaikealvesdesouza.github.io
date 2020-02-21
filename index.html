@@ -394,14 +394,14 @@
       /**
        * Append a pre element to the body containing the given message
        * as its text node. Used to display the results of the API call.
-       *
+       *https://drive.google.com/open?id=1vWA2exPWaOyQjJ6M5UPfB2qZRW4jKeI-
        * @param {string} message Text to be placed in pre element.
        */
       function appendPre(message,id) {
         var ul = document.getElementById('content');
 	var li = document.createElement("li");
 	var a  = document.createElement("a");
-            a.setAttribute("src","https://drive.google.com/drive/folders/"+id);
+            a.setAttribute("href","https://drive.google.com/open?id="+id);
             a.setAttribute("download","");
         var textContent = document.createTextNode(message + '\n');
 	 a.appendChild(textContent);
