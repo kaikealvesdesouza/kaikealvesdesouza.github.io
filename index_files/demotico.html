@@ -1,0 +1,507 @@
+
+<html>
+<head>
+	<title>demotico ptbr</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+</head>
+<body>
+<section class="py-5 text-center container">
+ <h1>A lingua portuguêsa é dificil.</h1>
+ <p>A idéia é criar um funcionamento simplificado com o minimo necessario para a comunicação.
+ </p>
+</section>
+
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h4 class="fw-light">Exemplo de uma frase simplificada</h4>
+        <div class="row">
+		      <div class="col-md-6">
+				  	<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+						  <p class="lead text-body-secondary" id="texto-original">A mais honrosa das ocupações é servir o público e ser útil ao maior número de pessoas.</p>
+						  <script>
+								let paragraph = document.getElementById("texto-original");
+								let textoOriginal = paragraph.textContent;
+								paragraph.innerHTML += "<span>Tamanho: <span style='color:red'>" + textoOriginal.length + "</span> characters</span>";
+							</script>
+						</div>
+					</div>
+					<div class="col-md-6">
+				  	<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">    
+							<p class="lead text-body-secondary">mais honrosa ocupações ser servir público ser útil maior número pessoas .</p>
+						</div>
+					</div>
+				</div>
+
+      </div>
+    </div>
+  </section>
+  
+
+<main class="container">
+	<div class="row mb-2">
+		  <div class="col-md-6">
+		    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+		      <div class="col p-4 d-flex flex-column position-static">
+		      	<h4>texto</h4>
+						<textarea id="texto"></textarea>
+						<button class="btn btn-primary" onclick="traduzir()">traduzir </button>
+						<br>	      
+		      </div>
+		      <div class="col-auto d-none d-lg-block">
+		        
+		      </div>
+		    </div>
+		  </div>
+		  <div class="col-md-6">
+		    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+		      <div class="col p-4 d-flex flex-column position-static">
+		        <h4>tradução</h4>
+						<div style="background-color:yellow" id="traducao" ></div>
+						<div id="info"></div>
+		      </div>
+		      <div class="col-auto d-none d-lg-block">
+		        
+		      </div>
+		    </div>
+		  </div>
+		</div>
+ </div>
+
+	
+	
+	
+	
+</body>
+<script type="text/javascript" src="br-utf8.js"></script>
+<script type="text/javascript">
+	let verbos = `amar
+								comer
+			partir
+			falar
+			estudar
+			cantar
+			correr
+			vender
+			beber
+			escrever
+			andar
+			ficar
+			chegar
+			agir
+			gostar
+			brincar
+			abrir
+			viver
+			comprar
+			jogar
+			corrigir
+			passar
+			receber
+			viajar
+			pensar
+			conhecer
+			assistir
+			aprender
+			dançar
+			começar
+			trabalhar
+			encontrar
+			precisar
+			deixar
+			dividir
+			levar
+			dever
+			colorir
+			voltar
+			chamar
+			voar
+			pular
+			entender
+			passear
+			nascer
+			olhar
+			parar
+			achar
+			usar
+			lembrar
+			dirigir
+			esquecer
+			morar
+			acordar
+			colocar
+			proteger
+			ganhar
+			feder
+			tomar
+			esperar
+			conjugar
+			pegar
+			descer
+			morrer
+			entrar
+			fingir
+			mexer
+			contar
+			possuir
+			ajudar
+			bater
+			conversar
+			cumprir
+			mandar
+			chover
+			chorar
+			continuar
+			suar
+			lavar
+			doer
+			doar
+			acabar
+			desejar
+			imprimir
+			existir
+			decidir
+			sonhar
+			caminhar
+			pagar
+			falir
+			procurar
+			nadar
+			atender
+			acontecer
+			mudar
+			escolher
+			entreter
+			responder
+			crescer
+			perdoar
+			fechar
+			almoçar
+			enviar
+			desistir
+			encher
+			tornar
+			participar
+			parecer
+			realizar
+			vencer
+			ligar
+			permitir
+			avisar
+			terminar
+			sentar
+			demolir
+			tirar
+			buscar
+			apresentar
+			sofrer
+			entregar
+			criar
+			casar
+			levantar
+			perceber
+			adquirir
+			perguntar
+			agradecer
+			convidar
+			aceitar
+			precaver
+			tentar
+			mostrar
+			ensinar
+			acreditar
+			informar
+			visitar
+			pentear
+			matar
+			aparecer
+			aproveitar
+			beijar
+			respeitar
+			resolver
+			tocar
+			gritar
+			incluir
+			roer
+			zoar
+			surgir 
+			pintar`.toString().replace(/\t/g, '').split("\n");
+	
+		//palavras a serem removidas do texto
+	let banidas = ["a","de","em","por","per","da",
+							"o","os","ao","aos","do","dos","no","nos",
+							"pelo","pelos",
+							"a","as","à","às","da","das","na","nas","pela","pelas",
+							"uma","uns","dum","duns","duma", "dumas","num","nuns","numa","numas",
+							"pelo", "pelos","pela","pelas",
+							"que","e","como","para","pra"];
+							
+	let simbolos = [","];
+	
+	let verbohaver = ["hás","há","havemos","haveis","hão",
+							"havia","havias","havia","havíamos","havíeis","haviam",
+							"houve","houveste","houve","houvemos","houvestes","houveram",
+							"houvera","houveras","houvera","houvéramos","houvéreis","houveram",
+							"haverei","haverás","haverá","haveremos","havereis","haverão",
+							"haveria","haverias","haveria","haveríamos","haveríeis","haveriam",
+							"haja","hajas","haja","hajamos","hajais","hajam",
+							"houvesse","houvesses","houvesse","houvéssemos","houvésseis","houvessem",
+							"houver","houveres","houver","houvermos","houverdes","houverem",
+							"há","haja","hajamos","havei","hajam",
+							"hajas","haja","hajamos","hajais","hajam",
+							"haver","haveres","haver","havermos","haverdes","haverem",
+							"hei-o","há-lo","há-o","havemo-lo","havei-lo","hão-no",
+							"havia-o","havia-lo","havia-o","havíamo-lo","havíei-lo","haviam-no",
+							"houve-o","houveste-o","houve-o","houvemo-lo","houveste-lo","houveram-no",
+							"houvera-o","houvera-lo","houvera-o","houvéramo-lo","houvérei-lo","houveram-no",
+							"havê-lo-ei","havê-lo-ás","havê-lo-á","havê-lo-emos","havê-lo-eis","havê-lo-ão",
+							"havê-lo-ia","havê-lo-ias","havê-lo-ia","havê-lo-íamos","havê-lo-íeis","havê-lo-iam",
+							"haja","hajas","haja","hajamos","hajais","hajam",
+							"houvesse","houvesses","houvesse","houvéssemos","houvésseis","houvessem",
+							"houver","houveres","houver","houvermos","houverdes","houverem",
+							"há-o","haja-o","hajamo-lo","havei-o","hajam-no",
+							"hajas","haja","hajamos","hajais","hajam",
+							"haver","haveres","haver","havermos","haverdes","haverem",
+							"hei-me","hás-te","há-se","havemo-nos","haveis-vos","hão-se",
+							"havia-me","havias-te","havia-se","havíamo-nos","havíeis-vos","haviam-se",
+							"houve-me","houveste-te","houve-se","houvemo-nos","houvestes-vos","houveram-se",
+							"houvera-me","houveras-te","houvera-se","houvéramo-nos","houvéreis-vos","houveram-se",
+							"haver-me-ei","haver-te-ás","haver-se-á","haver-nos-emos","haver-vos-eis","haver-se-ão",
+							"haver-me-ia","haver-te-ias","haver-se-ia","haver-nos-íamos","haver-vos-íeis","haver-se-iam",
+							"haja","hajas","haja","hajamos","hajais","hajam",
+							"houvesse","houvesses","houvesse","houvéssemos","houvésseis","houvessem",
+							"houver","houveres","houver","houvermos","houverdes","houverem",
+							"há-te","haja-se","hajamo-nos","havei-vos","hajam-se",
+							"hajas","haja","hajamos","hajais","hajam",
+							"haver-me","haveres-te","haver-se","havermo-nos","haverdes-vos","haverem-se"];
+
+
+
+
+let verboser=["sou","era","fui",
+							"és","eras","foste",
+							"é","era","foi",
+							"somos","éramos","fomos",
+							"sois","éreis","fostes",
+							"são","eram","foram",
+							"fora","serei","seria",
+							"foras","serás","serias",
+							"fora","será","seria",
+							"fôramos","seremos","seríamos",
+							"fôreis","sereis","seríeis",
+							"foram","serão","seriam",
+							"seja","fosse","for",
+							"sejas","fosses","fores",
+							"seja","fosse","for",
+							"sejamos","fôssemos","formos",
+							"sejais","fôsseis","fordes",
+							"sejam","fossem","forem",
+							"sê","sejas",
+							"seja","seja",
+							"sejamos","sejamos",
+							"sede","sejais",
+							"sejam","sejam",
+							"ser",
+							"seres",
+							"ser",
+							"sermos",
+							"serdes",
+							"serem","será","sendo","sido"];
+									// eu voce ele nós eles
+									
+	let pronomes = ["eu","tu","ele","nós","vós","eles"];
+	let pbanidos = ["tu","vós"];
+									//todos esses serão substuidos por that
+	let demonstrativos=["isto","este","esta","estes","estas",
+											"isso","esse","essa","esses","essas",
+											"aquilo","aquele","aquela","aqueles","aquelas"];
+											
+											
+	let pindefinidos = ["algum", "nenhum", "todo", "outro", "muito", "pouco", "certo", "vários", "tanto", "quanto", "qualquer", "alguém", "ninguém", "tudo", "nada", "cada", "demais", "algo"];
+	
+	let pronominal = ["seu","sua","seus","suas"];
+	
+	
+	//"foram":"foi"
+	//"iria":"ir",
+	
+	// substituições
+	//"Será":"ir",
+	var maisverbos = [
+		"afirmar",
+		"acreditar",
+		"assessorar",
+		"apreender",
+		"criar",
+		"divulgar",
+		"declarar",
+		"determinar", 
+		"publicar",
+		"piorar",
+		"tentar",
+		"ter",
+		"ir"
+		];
+		
+		verbos = arrpush(verbos,maisverbos);
+	
+	
+	function arrpush(arr,npt){
+		let out = arr;
+		for(let i=0;i<npt.length;i++)
+		{
+			out.push(npt[i]);
+		}
+		return out;
+	}
+	function eumpronome(word){
+		word = word.toLowerCase();
+		  
+	  if(substituto=substituir(pbanidos,word,"você")){
+	  	return substituto;
+	  }
+		
+		for(let i=0;i<demonstrativos.length;i++)
+		{
+			if(demonstrativos[i] == word){
+				return "este";
+			}
+		}
+		for(let i=0;i<pronominal.length;i++)
+		{
+			if(pronominal[i] == word){
+				return " ";
+			}
+		}
+	}
+	function substituir(words,word,neoword){
+		for(let i=0;i<words.length;i++)
+		{
+			if(words[i] ==  word  ){
+				regular = neoword;
+				return regular;
+			}
+		}
+	}
+	function eumverbo(word){
+			let regular = "";
+			word=word.toLowerCase();
+		for(let i=0;i<verbos.length;i++)
+		{
+			//console.log(verbos[i]," ",word);
+			//Sonh –ar	Sofr –er	Divid –ir
+				let end = verbos[i].slice(-2);
+				let pre = verbos[i].slice(0,verbos[i].length-2);
+				if( end == "ar"){
+					//Sonho Sonhei Sonharei Sonhado	
+					let m1 = pre + "o";
+					let m2 = pre + "ei";
+					let m3 = pre + "arei";
+					let m4 = pre + "ado";
+					if( m1  == word ||  m2  == word  ||  m3 == word ||  m4  == word ){
+						regular = verbos[i];
+						break;
+					}
+				}
+				if( end == "er"){
+					//Sofro Sofri Sofrerei Sofreu
+					let m1 = pre + "o";
+					let m2 = pre + "i";
+					let m3 = pre + "erei";
+					let m4 = pre + "eu";
+					if( m1 == word || m2 == word  || m3 == word ||  m4 == word ){
+							regular = verbos[i];
+						break;
+					}
+				}
+				if( end == "ir"){
+					//Divido Dividi Dividirei Dividiu
+					let m1 = pre + "o";
+					let m2 = pre + "i";
+					let m3 = pre + "irei";
+					let m4 = pre + "iu";
+					if( m1 == word || m2 == word  || m3 == word || m4 == word ){
+						regular = verbos[i];
+						break;
+					}
+				}
+			if(verbos[i] == word){
+				regular = verbos[i];
+				break;
+			}
+		}
+		if(regular==""){
+		
+			if(regular=substituir(verbohaver,word,"hei")){
+				return regular;
+			}
+			
+			if(regular=substituir(verboser,word,"ser")){
+				return regular;		
+			}
+		}
+	
+			return regular;
+	}
+	
+	function capUppLow(word){
+		word = word.toLowerCase();
+		let out = [];
+		let cap = word[0].toUpperCase() + word.slice(1);
+		let upp = word.toUpperCase();
+		let low = word.toLowerCase();
+		out[0]=cap;
+		out[1]=upp;
+		out[2]=low;
+		return out;
+	}
+	
+	function replaceAllArr(str,arr){
+		let out = str;
+		for(let i=0;i<arr.length;i++)
+		{
+			out=out.replaceAll(" " + arr[i]  + " "," ");
+		}
+		return out;
+	}
+	var words;
+	function traduzir(){
+		var texto = " " + document.getElementById("texto").value + " ";
+		    texto = texto.replaceAll("."," . ");
+		for(let i=0;i<banidas.length;i++)
+		{
+			//texto=texto.replaceAll(" " + banidas[i] + " "," ");
+			texto=replaceAllArr(texto,capUppLow(banidas[i]));
+		}
+		
+		for(let i=0;i<simbolos.length;i++)
+		{
+			texto=texto.replaceAll(simbolos[i],"");
+		}
+		words = texto.split(" ").filter(x =>x);
+		for(let i=0;i<words.length;i++)
+		{
+				console.log(words[i]);
+				
+					
+					if( regular0 = eumverbo(words[i]) ){
+						words[i] = regular0;
+					}else{
+						if(response = eumpronome(words[i])){
+								words[i] = response;
+							}
+					}
+				
+			 
+		}
+		var traducao = words.join(" ");
+		console.log(texto);
+		document.getElementById("traducao").innerHTML=traducao;
+		document.getElementById("info").innerHTML = "<span>Tamanho<span style='color:red'>"+traducao.length+"</span></span><br>";
+		let total=parseInt(document.getElementById("texto").value.length) - parseInt(traducao.length);
+		document.getElementById("info").innerHTML +="<span>Economia<span style='color:green'>" + total +"</span></span>";
+	}
+
+</script>
+</html>
