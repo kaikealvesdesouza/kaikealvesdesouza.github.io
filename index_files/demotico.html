@@ -6,7 +6,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 </head>
 <body>
-	<div class="fixed-top "><a class="float-end btn btn-primary btn-lg" href="como.html">Como Funciona?</a></div>
+<div class="fixed-top "><a class="float-end btn btn-primary btn-lg" href="como.html">Como Funciona?</a></div>
 <section class="py-3 text-center container">
  <h1>A lingua portuguêsa é dificil.</h1>
  <p>A idéia é criar um funcionamento simplificado com o minimo necessario para a comunicação.
@@ -311,8 +311,16 @@ let verboser=["sou","era","fui",
 							"serem","será","sendo","sido"];
 									// eu voce ele nós eles
 									
-	let pronomes = ["eu","tu","ele","nós","vós","eles"];
-	let pbanidos = ["tu","vós"];
+	let pronomes = ["eu","você","ele","nós","você","eles"];
+
+	let pbanidos = [
+									["mim", "me", "comigo",  "meu", "minha","meus", "minhas"],
+									["te", "ti", "contigo",  "teu", "tua",   "teus", "tuas"],
+									["se", "o", "a", "lhe", "si", "consigo"],
+									["nos", "conosco",  "nosso", "nossos", "nossa", "nossas"],
+									["vos", "convosco",  "vossa", "vosso", "vossos", "vossas"],
+									["si", "os", "as", "lhes", "se", "consigo"]
+									];
 									//todos esses serão substuidos por that
 	let demonstrativos=["isto","este","esta","estes","estas",
 											"isso","esse","essa","esses","essas",
@@ -359,9 +367,15 @@ let verboser=["sou","era","fui",
 	function eumpronome(word){
 		word = word.toLowerCase();
 		  
-	  if(substituto=substituir(pbanidos,word,"você")){
-	  	return substituto;
-	  }
+		  for(let i=0;i<pbanidos.length;i++)
+		  {
+		  	
+		  		console.log("aqui",pbanidos[i]," ", word);
+					if(substituto=substituir(pbanidos[i],word,pronomes[i])){
+						return substituto;
+					}
+				
+			}
 		
 		for(let i=0;i<demonstrativos.length;i++)
 		{
