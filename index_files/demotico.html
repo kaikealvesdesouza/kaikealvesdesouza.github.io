@@ -8,7 +8,7 @@
 <body>
 <div class="fixed-top "><a class="float-end btn btn-primary btn-lg" href="como.html">Como Funciona?</a></div>
 <section class="py-3 text-center container">
- <h1>A lingua portuguêsa é difícil.</h1>
+ <h1>A lingua portuguêsa é dificil.</h1>
  <p>A idéia é criar um funcionamento simplificado com o minimo necessario para a comunicação.
  </p>
 </section>
@@ -229,6 +229,7 @@
 			surgir 
 			pintar`.toString().replace(/\t/g, '').split("\n");
 	
+	
 		//palavras a serem removidas do texto
 	let banidas = ["a","de","em","por","per","da",
 							"o","os","ao","aos","do","dos","no","nos",
@@ -313,9 +314,8 @@ let verboser=["sou","era","fui",
 									
 	let pronomes = ["eu","você","ele","nós","você","eles"];
 
-	let pbanidos = [
-									["mim", "me", "comigo",  "meu", "minha","meus", "minhas"],
-									["te", "ti", "contigo",  "teu", "tua",   "teus", "tuas"],
+	let prnmsubs = [["mim", "me", "comigo",  "meu", "minha","meus", "minhas"],
+								  ["te", "ti", "contigo",  "teu", "tua",   "teus", "tuas"],
 									["se", "o", "a", "lhe", "si", "consigo"],
 									["nos", "conosco",  "nosso", "nossos", "nossa", "nossas"],
 									["vos", "convosco",  "vossa", "vosso", "vossos", "vossas"],
@@ -349,13 +349,63 @@ let verboser=["sou","era","fui",
 		"publicar",
 		"piorar",
 		"tentar",
-		"ter",
-		"ir"
+		"ter"
+		//,"ir" verbo com apenas duas letras causa um erro
 		];
 		
 		verbos = arrpush(verbos,maisverbos);
-	
-	
+		
+		let labels = ["substativos","substitutos"];
+		let cols   = [[],[]];
+		    cols[0][0]=banidas;
+		    cols[0][1]=verbohaver;
+		    cols[0][2]=verboser;
+		    cols[0][3]=simbolos;
+		    cols[1][0]=" ";
+		    cols[1][1]="hei";
+		    cols[1][2]="ser";
+		    cols[1][3]=" ";
+		   let n=2;
+		   for(let i=0; i<prnmsubs.length;i++)
+		   {
+		   		n++;
+		   	  cols[0][n]=prnmsubs[i];
+		   	  cols[1][n]=pronomes[i];
+		   }
+		   
+		    cols[0][n+1]=demonstrativos;
+		    cols[0][n+2]=pronominal;
+		    cols[1][n+1]="este";
+		    cols[1][n+2]=" "; 
+		   
+		    //rows=[cols[0][0],cols[1][0]]
+		    //rows=[cols[0][1],cols[1][1]]
+		var table = new Array(cols[0].length).fill([]);
+		for(let j=0; j<cols[0].length;j++)
+		{
+			let row = [];
+			for(let i=0;i<cols.length;i++)
+			{
+				row[i] = cols[i][j];
+			}
+			table[j] =row; 
+		}
+		
+		console.log("tabela ",table);
+		
+		function selecionar(palavra){
+			for(let i=0;i<table.length;i++)
+			{
+				for(let j=0;j<table[i][0].length;j++)
+				{
+					if(table[i][0][j]==palavra){
+							//console.log(table[i][0][j]==palavra,table[i][1]);
+						return table[i][1];
+					}
+				}
+			}
+		}
+
 	function arrpush(arr,npt){
 		let out = arr;
 		for(let i=0;i<npt.length;i++)
@@ -364,32 +414,7 @@ let verboser=["sou","era","fui",
 		}
 		return out;
 	}
-	function eumpronome(word){
-		word = word.toLowerCase();
-		  
-		  for(let i=0;i<pbanidos.length;i++)
-		  {
-		  	
-		  		console.log("aqui",pbanidos[i]," ", word);
-					if(substituto=substituir(pbanidos[i],word,pronomes[i])){
-						return substituto;
-					}
-				
-			}
-		
-		for(let i=0;i<demonstrativos.length;i++)
-		{
-			if(demonstrativos[i] == word){
-				return "este";
-			}
-		}
-		for(let i=0;i<pronominal.length;i++)
-		{
-			if(pronominal[i] == word){
-				return " ";
-			}
-		}
-	}
+	
 	function substituir(words,word,neoword){
 		for(let i=0;i<words.length;i++)
 		{
@@ -399,12 +424,12 @@ let verboser=["sou","era","fui",
 			}
 		}
 	}
+	
 	function eumverbo(word){
-			let regular = "";
+			let verbo = "";
 			word=word.toLowerCase();
 		for(let i=0;i<verbos.length;i++)
 		{
-			//console.log(verbos[i]," ",word);
 			//Sonh –ar	Sofr –er	Divid –ir
 				let end = verbos[i].slice(-2);
 				let pre = verbos[i].slice(0,verbos[i].length-2);
@@ -415,8 +440,8 @@ let verboser=["sou","era","fui",
 					let m3 = pre + "arei";
 					let m4 = pre + "ado";
 					if( m1  == word ||  m2  == word  ||  m3 == word ||  m4  == word ){
-						regular = verbos[i];
-						break;
+						verbo = verbos[i];
+						return verbo;
 					}
 				}
 				if( end == "er"){
@@ -426,8 +451,8 @@ let verboser=["sou","era","fui",
 					let m3 = pre + "erei";
 					let m4 = pre + "eu";
 					if( m1 == word || m2 == word  || m3 == word ||  m4 == word ){
-							regular = verbos[i];
-						break;
+						verbo = verbos[i];
+						return verbo;
 					}
 				}
 				if( end == "ir"){
@@ -437,79 +462,52 @@ let verboser=["sou","era","fui",
 					let m3 = pre + "irei";
 					let m4 = pre + "iu";
 					if( m1 == word || m2 == word  || m3 == word || m4 == word ){
-						regular = verbos[i];
-						break;
+						verbo = verbos[i];
+						return verbo;
 					}
 				}
-			if(verbos[i] == word){
-				regular = verbos[i];
-				break;
-			}
+				
+				if(verbos[i]==word){
+					verbo = verbos[i];
+					return verbo;
+				}
 		}
-		if(regular==""){
-		
-			if(regular=substituir(verbohaver,word,"hei")){
-				return regular;
-			}
-			
-			if(regular=substituir(verboser,word,"ser")){
-				return regular;		
-			}
-		}
-	
-			return regular;
 	}
 	
-	function capUppLow(word){
-		word = word.toLowerCase();
-		let out = [];
-		let cap = word[0].toUpperCase() + word.slice(1);
-		let upp = word.toUpperCase();
-		let low = word.toLowerCase();
-		out[0]=cap;
-		out[1]=upp;
-		out[2]=low;
-		return out;
-	}
 	
-	function replaceAllArr(str,arr){
-		let out = str;
-		for(let i=0;i<arr.length;i++)
-		{
-			out=out.replaceAll(" " + arr[i]  + " "," ");
-		}
-		return out;
-	}
+	
+	
+	
 	var words;
+	
+	function sanitizar(texto){
+		//texo = texto.toString().replace(/\t/g, ' ').replace(/\n/g, ' ');
+		words = texto.split(" ").filter(x =>x);
+		outpt = [];
+		for(let i=0; i< words.length;i++)
+		{
+			outpt=outpt.concat( words[i].toString().replace(/\t/g, ' ').replace(/\n/g, ' ').split(" ") );
+		}
+		return outpt.join(" ");
+	}
+	
 	function traduzir(){
 		var texto = " " + document.getElementById("texto").value + " ";
-		    texto = texto.replaceAll("."," . ");
-		for(let i=0;i<banidas.length;i++)
-		{
-			//texto=texto.replaceAll(" " + banidas[i] + " "," ");
-			texto=replaceAllArr(texto,capUppLow(banidas[i]));
+			texto = sanitizar(texto.replaceAll("."," . ").replaceAll(","," , "));
+		
+		words = texto.split(" ").filter(x =>x);
+		let callbacks = [eumverbo,selecionar];
+		for(let i=0;i<words.length;i++)
+		{		
+			for(let j=0;j<callbacks.length;j++)
+			{
+				if( regular0 = callbacks[j](words[i].toLowerCase()) ){
+					words[i] = regular0;
+				}
+			}
 		}
 		
-		for(let i=0;i<simbolos.length;i++)
-		{
-			texto=texto.replaceAll(simbolos[i],"");
-		}
-		words = texto.split(" ").filter(x =>x);
-		for(let i=0;i<words.length;i++)
-		{
-				console.log(words[i]);
-				
-					
-					if( regular0 = eumverbo(words[i]) ){
-						words[i] = regular0;
-					}else{
-						if(response = eumpronome(words[i])){
-								words[i] = response;
-							}
-					}
-				
-			 
-		}
+		
 		var traducao = words.join(" ");
 		console.log(texto);
 		document.getElementById("traducao").innerHTML=traducao;
