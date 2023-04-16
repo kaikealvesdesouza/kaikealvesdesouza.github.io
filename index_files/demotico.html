@@ -91,7 +91,7 @@
 			texto = sanitizar(texto.replaceAll("."," . ").replaceAll(","," , "));
 		
 		words = texto.split(" ").filter(x =>x);
-		let callbacks = [eumverbo,selecionar];
+		let callbacks = [selecionar,eumverbo];
 		for(let i=0;i<words.length;i++)
 		{		
 			for(let j=0;j<callbacks.length;j++)
