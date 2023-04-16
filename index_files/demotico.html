@@ -103,6 +103,7 @@
 		}		
 		
 		var traducao = words.join(" ");
+		    traducao = traducao.replaceAll(" . ",".").replaceAll(" , ",",");
 		console.log(texto);
 		document.getElementById("traducao").innerHTML=traducao;
 		document.getElementById("info").innerHTML = "<span>Tamanho<span style='color:red'>"+traducao.length+"</span></span><br>";
