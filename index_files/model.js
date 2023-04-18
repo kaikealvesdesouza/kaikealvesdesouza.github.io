@@ -236,7 +236,7 @@ let verboser=["sou","era","fui",
 	let pronomes = ["eu","você","ele","nós","você","eles"];
 
 	let prnmsubs = [["mim", "me", "comigo",  "meu", "minha","meus", "minhas"],
-								  ["te", "ti", "contigo",  "teu", "tua",   "teus", "tuas"],
+								  ["tu","te", "ti", "contigo",  "teu", "tua",   "teus", "tuas"],
 									["se", "o", "a", "lhe", "si", "consigo"],
 									["nos", "conosco",  "nosso", "nossos", "nossa", "nossas"],
 									["vos", "convosco",  "vossa", "vosso", "vossos", "vossas"],
