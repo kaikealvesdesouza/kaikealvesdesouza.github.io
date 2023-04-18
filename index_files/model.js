@@ -278,7 +278,7 @@ let verboser=["sou","era","fui",
 		
 		let verboter = ["tenho", "tens", "tem", "temos", "tendes", "têm",
 									"tenha", "tenhas", "tenha", "tenhamos", "tenhais", "tenham",
-									"tem", "tu", "tenha", "tenhamos", "tende", "tenham",
+									"tem", "tenha", "tenhamos", "tende", "tenham",
 									"tenhas", "tenha","tenhamos", "tenhais", "tenham",
 									"tive", "tiveste", "teve", "tivemos", "tivestes", "tiveram",
 									"tivera", "tiveras", "tivera", "tivéramos", "tivéreis", "tiveram",
