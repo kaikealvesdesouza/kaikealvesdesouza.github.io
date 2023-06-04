@@ -11,7 +11,14 @@ var sites = {
 	"eurasiagroup":{title:"eurasia group",abstract:"noticias de politica ao redor do mundo",url:"eurasiagroup.net",search:"global-search-results",params:[{name:"keyword",f:"search"}],keywords:["noticia","news","politica","politic"]},
 	"gzeromedia":{title:"gzero media",abstract:"o mundo em 60 segundos",url:"gzeromedia.com",search:"search",params:[{name:"q",f:"search"}],keywords:["news","noticia","world","democracy"]},
 	"congressoemfoco":{title:"congresso em foco", abstract:"noticias do congresso nacional direto de brasilia",url:"congressoemfoco.uol.com.br","search":"",params:[{name:"s",f:"search"}],keywords:["politica","noticia","brasilia","congresso","nacional"]},
-	"apublica":{title:"apublica",url:"apublica.org",abstract:"Agência de Jornalismo Investigativ",params:[{name:"s",f:"search"}],keywords:["noticia","politica"]}
+	"apublica":{title:"apublica",url:"apublica.org",abstract:"Agência de Jornalismo Investigativ",params:[{name:"s",f:"search"}],keywords:["noticia","politica"]},
+	".gov.br":{title:".gov.br",url:"gov.br",abstract:"Serviços e Informações do Brasil",search:"search",params:[{name:"SearchableText",f:"search"}],keywords:[]},
+	"eaulas.usp":{title:"eaulas.usp",url:"eaulas.usp.br",abstract:"Portal de video aulas",search:"search.action",params:[],keywords:["educacao","video","curso","faculdade","universidade"]},
+	"nasa":{title:"nasa",url:"nasa.gov",abstract:"America’s civil space program",search:"search",params:[{name:"query",f:"search"},{name:"affiliate",v:"nasa"},{name:"utf8",v:"%E2%9C%93"}],keywords:["tecnologia","space","spaço","terra","lua","video"]},
+  "flickr":{title:"flickr",url:"flickr.com",abstract:"o melhor aplicativo online de gerenciamento e compartilhamento no mundo",search:"search",params:[{name:"text",f:"search"}],keywords:["fotos","photos","imagens","images","imagem","retrato","foto"]},
+  "marvelcinematicuniverse":{title:"marvelcinematicuniverse",url:"marvelcinematicuniverse.fandom.com/wiki/",abstract:"The online marvel cinematic universe encyclopedia",search:"Special:Search",params:[{name:"query",f:"search"}],keywords:["marvel","fotos","photos","photo","foto"]},
+	"bibliotecanacional":{title:"bibliotecanacional",url:"bndigital.bn.gov.br/bibliotecas-digitais-pelo-mundo/",search:"",params:[],keywords:["livro","acervo","biblioteca","jornal","book"]}
+	//https://institutocpfl.org.br/?s=eugenio&submit=
 };
 		
 
