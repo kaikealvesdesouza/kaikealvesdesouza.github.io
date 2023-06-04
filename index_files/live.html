@@ -138,7 +138,7 @@
 	  	   	let psearch=(item.search) ? item.search + "/" : "";
 	  	    if(item.url!=""){
 	  	    	if(item.url.match(/\./g).length>=3){
-	  	    		html += "<a onclick='openM(event,this);return false;' href='https:" + item.url + "/" + psearch + furls + "?" + pstr + "'>" + item.title + "->" + "pesquisar" + "->" + pyld + "</a>"
+	  	    		html += "<a onclick='openM(event,this);return false;' href='https://" + item.url + "/" + psearch + furls + "?" + pstr + "'>" + item.title + "->" + "pesquisar" + "->" + pyld + "</a>"
 	  	    	}else{
 	  	    		html += "<a onclick='openM(event,this);return false;' href='https://www." + item.url + "/" + psearch + furls + "?" + pstr + "'>" + item.title + "->" + "pesquisar" + "->"+ pyld + "</a>"
 	  				}
