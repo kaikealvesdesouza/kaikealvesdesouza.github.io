@@ -1,0 +1,290 @@
+<html data-bs-theme="dark">
+	<head>
+	 <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>live me</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+		<script type="text/javascript" src="sites.js"></script>	
+		<script type="text/javascript" src="request.js"></script>	
+		<style>
+		.mform-control{
+		  padding: 0.375rem 0.75rem;
+		  font-size: 1rem;
+		  font-weight: 400;
+		  line-height: 1.5;
+		  color: var(--bs-body-color);
+		  background-color: var(--bs-body-bg);
+		  background-clip: padding-box;
+		  border: var(--bs-border-width) solid var(--bs-border-color);
+		  -webkit-appearance: none;
+		  -moz-appearance: none;
+		  appearance: none;
+		  border-radius: var(--bs-border-radius);
+		  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+		}
+		
+		</style>	
+	</head>
+	<body>
+
+	<div style="width:800px; margin:auto;">
+		<div>
+			<div style="height:50px;">
+				<a href="live.html">Início</a>
+			</div>
+			<form onsubmit="return false;">
+				<div style="">
+				<input type="text"  class="mform-control" type="text" id="search" name="search" required>
+			<button class="btn btn-success" onclick="submf()">pesquisar</button>	
+				</div>				
+			</form>
+		</div>
+		<div id="suggestions"></div>
+		<hr>
+		<div id="resultado"></div>
+		<hr>
+		<div style="position:fixed;bottom:0px;" id="paginacao"></div>
+	</div>
+	<script type="text/javascript">
+			var url       = new URL(window.location.href);
+      var page      = url.searchParams.get("page");
+      var search    = url.searchParams.get("search");
+      var skeys     = Object.keys(sites);
+    	var nofsites  = Object.keys(sites).length;
+    	var sitesppage= 1;
+    	var nofpages  = nofsites/sitesppage;
+    if(!page){
+    	page=1;
+    }else{
+    	page=parseInt(page);
+    }
+    if(page<=0){
+    	page=1;
+    }
+    if(page>nofpages){
+    	page=nofpages;
+    }
+		var myWindow;
+	 	function openM(event,a){
+	 		 event.preventDefault();
+	 		myWindow = window.open(a.href, "live me", "width=400,height=300");
+	 	}
+	 	
+	 	function nof(){
+	 		return li({title:"pesquisa",abstract:"Não encontrei nenhum site com essa palavras.", url:"",params:[],keywords:[]},search);
+	 	}
+	 	
+	 	function welc(){
+	 		document.getElementById("resultado").innerHTML = li({title:"Seja muito bem vindo ao Liveme.",abstract:"Não leio o conteudo de outros sites apenas recomendo sitios baseados em palavras chave e area de interesse de uma lista de endereços avaliados como de boa qualidade sendo portando sujeito a moderação pelo curador da lista de sites.", url:"",params:[],keywords:[]},""); 	
+	 	}
+	 	 
+	 	function like(str,word){
+	 		let nofsilabas = Math.ceil(str.length/3);
+  		let palavra    = "";
+  		let weight     = 0;
+  		let reqrwt     = 1;
+  		let begin      = 0;
+  		for(let p=0;p<nofsilabas;p++)
+  		{
+  			let limit   = begin + 3;
+  			let prev    = limit;
+  			let silaba  = str.slice(begin,limit);
+  			     begin  = limit;
+  				 palavra += silaba;
+  			let parcial = word.substring(0,palavra.length);
+				 if( palavra == parcial ){
+				 	   weight++;
+				 }
+  		}
+  		if(weight == reqrwt || weight > reqrwt){
+  			return true;
+  		}
+	 	}
+	 	function rpl(item,search){
+	 		let payload = search;
+	 		let words   = payload.split(" ");  
+			 for(let i=0;i<words.length;i++)
+			 {
+			 	if( like(words[i], item.title) == true ){
+  		 		payload	= payload.replace(words[i],"");
+  		 	}
+  		 	
+		 		for(let j=0;j<item.keywords.length;j++)
+		 		{	
+		 			if( like(words[i], item.keywords[j]) == true ){
+  		 			payload	= payload.replace(words[i],"");
+  		 		}
+		 		}
+		 	}
+		 		return payload;
+	 	}
+	  function li(item,search){
+	  	let html =  "<div>";
+	  	    html += "<h4 class='title'>" + item.title + "</h4>";
+	  	    html += "<p class='truncate'>" + item.abstract + "</p>";
+	  	    pstr = "";
+	  	    let pyld = rpl(item,search);
+	  	    let furl = true;
+	  	    for(let i=0;i<item.params.length;i++)
+	  	    {
+	  	    		if(item.params[i].f == "search"){
+	  	    			pstr += item.params[i].name + "=" + pyld;
+	  	    			furl = false;
+	  	    			continue;
+	  	    		}
+	  	    		pstr += "&" + item.params[i].name + "=" + item.params[i].v;
+	  	    }
+	  	    let furls=(furl)?pyld:"";
+	  	   	let psearch=(item.search) ? item.search + "/" : "";
+	  	    if(item.url!=""){
+	  	    	if(item.url.match(/\./g).length>=3){
+	  	    		html += "<a onclick='openM(event,this);return false;' href='https:" + item.url + "/" + psearch + furls + "?" + pstr + "'>" + item.title + "->" + "pesquisar" + "->" + pyld + "</a>"
+	  	    	}else{
+	  	    		html += "<a onclick='openM(event,this);return false;' href='https://www." + item.url + "/" + psearch + furls + "?" + pstr + "'>" + item.title + "->" + "pesquisar" + "->"+ pyld + "</a>"
+	  				}
+	  			}
+	  			html +="</div>";
+	  	return html;
+	  }
+	  
+	  function submf(v){
+	  	if(document.forms[0].checkValidity() == true){
+	  	search=document.getElementById("search").value;
+	  	page=1;
+	  	var title  = "live me - " + search + " "      + page;
+	  	var target = "?search="  + search + "&page=" + page;
+			window.history.pushState({}, title, target);
+			wiki(search);
+			list();
+			}
+	  }
+	  
+	  function filterbymatch(items,search){
+	  	let testeds = [];
+	  	let words = search.split(" ");
+	  	for(let i=0;i<items.length;i++)
+	  	{
+	  		let nofsilabas = Math.ceil(sites[items[i]].title.length/3);
+	  		let palavra    = "";
+	  		let found      = false;
+	  		for(let w=0;w<words.length;w++)
+	  		{
+					let begin      =0;
+					for(let p=0;p<nofsilabas;p++)
+					{
+						let limit   = begin + 3;
+						let silaba  = sites[items[i]].title.slice(begin,limit);
+							 palavra += silaba;
+							 begin = limit;
+						let  regex  = new RegExp(palavra,'g');
+						if ( regex.test(words[w]) == true) {
+							testeds.push(items[i]);
+							found = true;
+							break;
+						}
+					}
+					if(found == true){
+						continue;		
+					}
+					for(let j=0;j<sites[items[i]].keywords.length;j++)
+					{
+						let  keyw  = sites[items[i]].keywords[j].replace("?","");
+						if ( like(keyw,words[w]) == true ) {
+							testeds.push(items[i]);
+							break;
+						}
+					}
+				}
+	  	}
+	  	return testeds;
+	  }
+	  function get(search){
+	  	let tests = [];
+			for(let i=0;i<nofpages;i++)
+			{
+				tests=tests.concat(filterbymatch(skeys.slice(i*sitesppage,(i*sitesppage)+sitesppage),search));
+			}
+			return tests;
+	  }
+	  
+	  
+		function list(){ 
+			let html  = "";
+			let html1 = "";
+			let res   = get(search);
+			let news  = get("noticia");
+			
+			let all   = res;
+			for(let i=0;i<news.length;i++)
+			{
+				let f = false;
+				for(let j=0;j<res.length;j++)
+				{
+					if(sites[news[i]].title==sites[res[j]].title){
+						f = true
+					}
+				}
+				if(!f){
+					all.push(news[i]);
+				}
+		  }
+			let pkeys = all.slice((page-1)*sitesppage,(page-1)*sitesppage+sitesppage);
+			
+			for(let i=0;i<pkeys.length;i++)
+			{
+				html += li(sites[pkeys[i]],search);
+			}
+	  	
+	  	document.getElementById("resultado").innerHTML = html;
+	  	document.getElementById("paginacao").innerHTML = pagination(all.length/sitesppage);
+			
+		}
+		
+		function pagination(nofpages){
+			let html = "<div class='pagination'>";
+			for(let i=1;i<nofpages+1;i++)
+			{
+				if(i==page){
+				html += "<li  class='page-item active'><a onclick='go(event,this);return false;' class='page-link' href='?search="+search+"&page="+i+"'>"+i+"</a></li>";
+				}else{
+				html += "<li  class='page-item'><a onclick='go(event,this);return false;' class='page-link' href='?search="+search+"&page="+i+"'>"+i+"</a></li>";
+				}
+			}
+			html += "</div>";
+			return html;
+			
+		}
+		
+		
+	  function go(e,a){
+	  	e.preventDefault;
+	  	let url    = new URL(a.href);
+          search = url.searchParams.get("search");
+          page   = url.searchParams.get("page");
+	  	var title  = "live me - " + search + " "      + page;
+	  	var target = "?search="   + search + "&page=" + page;
+			window.history.pushState({}, title, target);
+	  	
+	  	list();
+	  }
+	  console.log("entoeru");
+	  
+	  window.onpopstate = (event) => {
+			console.log(
+				`location: ${document.location}, state: ${JSON.stringify(event.state)}`
+			);
+			window.location.href=document.location;
+		};
+
+
+		if(search){
+			document.getElementById("search").value=search;    
+			list();
+		}else{
+			welc();
+		}
+		  	
+	</script>
+		
+	</body>
+	</html>
