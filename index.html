@@ -3,14 +3,6 @@
 <html lang="en" class="cye-disabled cye-nm">
 <head>
   <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-157499549-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-157499549-1');
-</script>
 
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -52,15 +44,16 @@
 	<!-- CONTINUE-->
       <div class="row">
         <div class="col-md-12">
-		<p>Uma simplificação do português</p>
+		<p>Uma simplificação do português
 		<a href="./index_files/demotico.html">demoticoptbr</a>
-		<br>
-		<p>Uma sistema de busca old fashioned</p>
+		</p>
+		<p>Uma sistema de busca old fashioned
 		<a href="./index_files/live.html">liveme</a>
-		
-		<p>Editor de texto web</p>
+		</p>
+		<p>Editor de texto web
 		<a href="./webeditor/webeditor.html">webeditor</a>
-        </div>
+        	</p>
+	</div>
     </div>
 
       <footer class="my-5 pt-5 text-muted text-center text-small">
@@ -68,185 +61,6 @@
       </footer>
   </div>
 
-      <!-- Bootstrap core JavaScript
-      ================================================== -->
-      <!-- Placed at the end of the document so the pages load faster -->
-	<!--
-      <script src="./index_files/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-      <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
--->
-      <script src="./index_files/popper.min.js"></script>
-      <!--<script src="./index_files/bootstrap.min.js"></script>-->
-      <script src="./index_files/holder.min.js"></script>
-	<!--
-      <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function() {
-          'use strict';
-
-          window.addEventListener('load', function() {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function(form) {
-              form.addEventListener('submit', function(event) {
-                if (form.checkValidity() === false) {
-                  event.preventDefault();
-                  event.stopPropagation();
-                }
-            form.classList.add('was-validated');
-            }, false);
-            });
-            }, false);
-            })();
-          </script>
--->
-		
-<script type="text/javascript">
-      // Client ID and API key from the Developer Console
-      //var CLIENT_ID = '599856979074-g4ljgtuo33gpb5fbc6o8hi5q34n7cis0.apps.googleusercontent.com';
-      var CLIENT_ID = '590520544857-ld4b3b17j931r8f7ejq49n05u00t8ojp.apps.googleusercontent.com';
-      //var API_KEY = 'AIzaSyDkrnoxDXyTOIow8n1z-dBGSbKzzyNW1II';
-	var API_KEY = 'AIzaSyAWixVAfFnNNzBjJ7tojjD8Y7VlZLIZhL0';
-      // Array of API discovery doc URLs for APIs used by the quickstart
-      var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
-
-      // Authorization scopes required by the API; multiple scopes can be
-      // included, separated by spaces.
-      var SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
-
-      var authorizeButton = document.getElementById('authorize_button');
-      var signoutButton = document.getElementById('signout_button');
-
-      /**
-       *  On load, called to load the auth2 library and API client library.
-       */
-      function handleClientLoad() {
-        gapi.load('client:auth2', initClient);
-      }
-
-      /**
-       *  Initializes the API client library and sets up sign-in state
-       *  listeners.
-       */
-      function initClient() {
-        gapi.client.init({
-          apiKey: API_KEY,
-          clientId: CLIENT_ID,
-          discoveryDocs: DISCOVERY_DOCS,
-          scope: SCOPES
-        }).then(function () {
-		listFiles();
-		/*
-          // Listen for sign-in state changes.
-          gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
-
-          // Handle the initial sign-in state.
-          updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-          authorizeButton.onclick = handleAuthClick;
-          signoutButton.onclick = handleSignoutClick;
-		*/
-        }, function(error) {
-          appendPre(JSON.stringify(error, null, 2));
-        });
-      }
-	/*
-	function receiveMessage(event)
-	{
-	  // Do we trust the sender of this message?  (might be
-	  // different from what we originally opened, for example).
-		console.log("you shall not pass: ",event);
-	  if (event.origin !== "http://example.com"){
-		console.log("you shall not pass");
-		    return;
-		}
-
-	  // event.source is popup
-	  // event.data is "hi there yourself!  the secret response is: rheeeeet!"
-	}
-	window.addEventListener("message", receiveMessage, false);
-	*/
-      /**
-       *  Called when the signed in status changes, to update the UI
-       *  appropriately. After a sign-in, the API is called.
-       */
-      function updateSigninStatus(isSignedIn) {
-        if (isSignedIn) {
-          authorizeButton.style.display = 'none';
-          signoutButton.style.display = 'block';
-          listFiles();
-        } else {
-          authorizeButton.style.display = 'block';
-          signoutButton.style.display = 'none';
-        }
-      }
-
-      /**
-       *  Sign in the user upon button click.
-       */
-      function handleAuthClick(event) {
-        gapi.auth2.getAuthInstance().signIn();
-      }
-
-      /**
-       *  Sign out the user upon button click.
-       */
-      function handleSignoutClick(event) {
-        gapi.auth2.getAuthInstance().signOut();
-      }
-
-      /**
-       * Append a pre element to the body containing the given message
-       * as its text node. Used to display the results of the API call.
-       *https://drive.google.com/u/0/uc?id=1vWA2exPWaOyQjJ6M5UPfB2qZRW4jKeI-&export=download
-       * @param {string} message Text to be placed in pre element.
-       */
-      function appendPre(message,id) {
-        var ul = document.getElementById('content');
-	var li = document.createElement("li");
-	var a  = document.createElement("a");
-            a.setAttribute("href","https://drive.google.com/u/0/uc?id="+id+"&export=download");
-            a.setAttribute("download","");
-        var textContent = document.createTextNode(message + '\n');
-	 a.appendChild(textContent);
-        li.appendChild(a);
-	ul.appendChild(li);
-      }
-
-      /**
-       * Print files.
-       */
-      function listFiles() {
-        gapi.client.drive.files.list({
-          'pageSize': 10,
-          'fields': "nextPageToken, files(id, name)",
-	   'q':"'1vz0yC3Du3mmARr_cnjKiGTb38HqIN7-d' in parents",	
-        }).then(function(response) {
-          /*appendPre('Files:');*/
-          var files = response.result.files;
-          if (files && files.length > 0) {
-            for (var i = 0; i < files.length; i++) {
-              var file = files[i];
-              appendPre(file.name + ' (' + file.id + ')', file.id);
-            }
-          } else {
-            appendPre('No files found.');
-          }
-        });
-      }
-
-    </script>
-
-    <script async defer src="https://apis.google.com/js/api.js"
-      onload="this.onload=function(){};handleClientLoad()"
-      onreadystatechange="if (this.readyState === 'complete') this.onload()">
-    </script>
-
-          </body>
-          <!--
-          <div id="cyeBlackMaskLayer" style="background-color: rgb(19, 19, 19); position: fixed; width: 1980px; height: 1080px; z-index: -2147483648;"></div>
-          <div id="cye-workaround-body" style="position: absolute; left: 0px; top: 0px; z-index: -2147483646; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(248, 249, 250); height: 1617px; width: 1308px;"></div>
-          <div id="cye-workaround-body-image" style="position: absolute; left: 0px; top: 0px; z-index: -2147483645; background: none 0% 0% / auto repeat scroll padding-box border-box rgba(0, 0, 0, 0); height: 1617px; width: 1308px;"></div>
-          -->
-          </html>
+            <!-- Placed at the end of the document so the pages load faster -->
+</body>
+</html>
